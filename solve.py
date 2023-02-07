@@ -1,5 +1,6 @@
 from queue import PriorityQueue
 from h_n import euclideanDistance, misplacedTiles
+from helper import *
 
 class Node: 
 
@@ -28,6 +29,11 @@ class Problem:
             self.aStar(euclideanDistance)
 
     def uniformCost(self):
+        current_state = Node(self.initial_state)
+        print("Expanding state:")
+        print_state(current_state.state)
+
+        
         pass
 
     def aStar(self, h_n):
