@@ -1,8 +1,8 @@
 import numpy as np
 from queue import PriorityQueue
 from heapq import heappush, heappop
-
-n = 3
+from helper import *
+from solve import *
 
 initial_state = [[1, 2, 0],
                 [4, 5, 3],
@@ -12,59 +12,6 @@ goal_state = [[1, 2, 3],
                 [6, 5, 4],
                 [7, 8, 0]]
 
-explored_set = []
-
-class priorityQueue:
-    
-    def __init__(self):
-        self.heap = []
-
-    def push(self, key):
-        heappush(self.heap, key)
-
-    def pop(self):
-        return heappop(self.heap)
-
-    def empty(self):
-        if not self.heap:
-            return True
-        else:
-            return False
-
-class Node: 
-
-    def __init__(self, state, parent, blank_tile_pos, heuristic, depth):
-        self.state = state
-        self.parent = parent
-        self.blank_tile_pos = blank_tile_pos
-        self.heuristic = heuristic
-        self.depth = depth
-        self.cost = self.depth + self.heuristic
-
-    def __lt__(self, next):
-        return self.cost < next.cost
-
-
-
-def calculate_heuristic(state):
-    count = 0
-    if(choice_of_algorithm == 1):    # Uniform Cost
-        return count
-    elif(choice_of_algorithm == 2):  # Misplaced Tile Heuristic
-        for i in range(n):
-            for j in range(n):
-                if ((state[i][j]) and state[i][j] != goal_state[i][j]):
-                    count +=1
-        return count
-    elif(choice_of_algorithm == 3):  # Euclidean Distance Heuristic
-        pass
-
-
-
-def solve():
-    blank_tile_pos = find_blank_tile(initial_state)
-    heuristic = calculate_heuristic(initial_state)
-    p = Node(initial_state, None, blank_tile_pos, heuristic, 0)
 
 def main():
     choice_of_puzzle = 0
@@ -104,7 +51,7 @@ def main():
     
     input("\nPress Enter to continue...")
 
-    solve()
+    problem = Problem(choice_of_algorithm)
 
 if __name__ == "__main__":
     main()

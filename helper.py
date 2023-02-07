@@ -3,7 +3,7 @@ def print_state(state):
     print(matrix)
 
 def find_blank_tile(state):
-    for i in range(n):
-        for j in range(n):
+    for i in range(len(state)):
+        for j in range(len(state[0])):
             if(state[i][j] == 0):
                 return [i, j]
