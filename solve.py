@@ -32,9 +32,7 @@ class Problem:
         current_state = Node(self.initial_state)
         print("Expanding state:")
         print_state(current_state.state)
-
         
-        pass
 
     def aStar(self, h_n):
         pass
