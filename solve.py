@@ -149,6 +149,50 @@ class Problem:
 
             num_nodes += 1         
 
-    def aStar(self, h_n):
-        pass
+    def aStar(self, h_function):
+        current_state = Node(self.initial_state)
+        depth = 1
+        num_nodes = 1
+        print("Expanding state:")
+        print_state(current_state.state)
+        print()
+
+        if(current_state.state == self.goal_state):
+            printResult(num_nodes, self.max_num_in_queue)
+            self.getSolutionPath(current_state)
+            return
+
+        f_n = h_function(current_state.state, self.goal_state) + current_state.g_n
+    
+        node = (f_n, depth, current_state)
+        self.frontier.put(node)
+        self.explored_node.append(node)
+
+        while not self.frontier.empty():
+            self.max_num_in_queue = max(self.max_num_in_queue, self.frontier.qsize()) 
+            poped_node = self.frontier.get()
+            current_state = poped_node[2]
+            current_f_n = poped_node[0]
+            current_h_n = current_f_n - current_state.g_n
+            self.explored_node.append(current_state.state)
+            if(current_state.state == self.goal_state):
+                printResult(num_nodes, self.max_num_in_queue)
+                self.getSolutionPath(current_state)
+                return
+                
+            print("\nThe best state to expand with g(n) = {} and h(n) = {} is:". format(current_state.g_n, current_h_n))
+            print_state(current_state.state)
+            print("Expanding this node...")
+
+            childs = current_state.getChild()
+
+            for child in childs:
+                depth += 1
+                if child.state not in self.explored_node:
+                    f_n = h_function(child.state, self.goal_state)
+                    node = (f_n, depth, child)
+                    self.frontier.put(node)
+                    child.parent = current_state
+
+            num_nodes += 1
     
