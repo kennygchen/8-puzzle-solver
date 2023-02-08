@@ -142,7 +142,7 @@ class Problem:
 
             for child in childs:
                 depth += 1
-                if child not in self.explored_node:
+                if child.state not in self.explored_node:
                     node = (child.g_n, depth, child)
                     self.frontier.put(node)
                     child.parent = current_state
