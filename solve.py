@@ -102,10 +102,6 @@ class Problem:
         elif choice_of_algorithm == 3:
             print("Using A* with Euclidean Distance Deuristic")
             self.aStar(euclideanDistance)
-        elif choice_of_algorithm == 4:
-            print("debug mode:")
-            distance = euclideanDistance(self.initial_state, self.goal_state)
-            print(distance)
 
     def uniformCost(self):
         current_state = Node(self.initial_state)

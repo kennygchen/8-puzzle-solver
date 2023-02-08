@@ -40,7 +40,7 @@ def main():
     print("[2] A* with the Misplaced Tile Heuristic")
     print("[3] A* with the Euclidean Distance Heuristic")
     choice_of_algorithm = int(input())
-    if(choice_of_algorithm < 1 or choice_of_algorithm > 4):
+    if(choice_of_algorithm < 1 or choice_of_algorithm > 3):
         print("Invalid input, using Uniform Cost Search")
         choice_of_algorithm = 1 # set algorithm to Uniform Cost Search
     
