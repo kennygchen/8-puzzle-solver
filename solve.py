@@ -146,8 +146,6 @@ class Problem:
                     node = (child.g_n, depth, child)
                     self.frontier.put(node)
                     child.parent = current_state
-                else:
-                    print("VISITED!!!!!!!!!!!")
 
             num_nodes += 1         
 
