@@ -16,6 +16,6 @@ def euclideanDistance(current_state, goal_state):
             for x in range(len(current_state)):
                 for y in range(len(current_state[0])):
                     if (goal_state[x][y] == current_state[i][j]):
-                        distance = sqrt(pow(i - j, 2) + pow(x - y, 2))
+                        distance = sqrt(pow(i - x, 2) + pow(j - y, 2))
                         total += distance
     return total
