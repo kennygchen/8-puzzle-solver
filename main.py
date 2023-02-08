@@ -48,9 +48,6 @@ def main():
 
     problem = Problem(initial_state)
     problem.solve(choice_of_algorithm)
-    print("\nThe solution path:")
-    print_state(initial_state)
-    print()
     problem.printSolutionPath()
 
 if __name__ == "__main__":

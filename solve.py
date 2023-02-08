@@ -84,6 +84,9 @@ class Problem:
         self.solution_path = nodes
 
     def printSolutionPath(self):
+        print("\nThe solution path:")
+        print_state(self.initial_state)
+        print()
         for state in self.solution_path:
             print_state(state)
             print()
