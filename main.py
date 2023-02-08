@@ -51,7 +51,8 @@ def main():
     
     input("\nPress Enter to continue...")
 
-    problem = Problem(choice_of_algorithm)
+    problem = Problem(initial_state)
+    problem.solve(choice_of_algorithm)
 
 if __name__ == "__main__":
     main()
