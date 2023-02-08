@@ -44,7 +44,7 @@ def main():
         print("Invalid input, using Uniform Cost Search")
         choice_of_algorithm = 1 # set algorithm to Uniform Cost Search
     
-    input("\nPress Enter to continue...")
+    input("\nPress Enter to continue...\n")
 
     problem = Problem(initial_state)
     problem.solve(choice_of_algorithm)
