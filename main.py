@@ -4,14 +4,9 @@ from heapq import heappush, heappop
 from helper import *
 from solve import *
 
-initial_state = [[1, 2, 0],
-                [4, 5, 3],
-                [7, 8, 6]]
-
-goal_state = [[1, 2, 3],
-                [6, 5, 4],
-                [7, 8, 0]]
-
+initial_state = [['1', '2', '0'],
+                ['4', '5', '3'],
+                ['7', '8', '6']]
 
 def main():
     choice_of_puzzle = 0
@@ -53,6 +48,10 @@ def main():
 
     problem = Problem(initial_state)
     problem.solve(choice_of_algorithm)
+    print("\nThe solution path:")
+    print_state(initial_state)
+    print()
+    problem.printSolutionPath()
 
 if __name__ == "__main__":
     main()

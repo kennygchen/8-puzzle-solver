@@ -5,10 +5,11 @@ def print_state(state):
 def find_blank_tile(state):
     for i in range(len(state)):
         for j in range(len(state[0])):
-            if(state[i][j] == 0):
+            if(state[i][j] == '0'):
                 return [i, j]
 
 def printResult(num_nodes, max_num_in_queue):
+    print()
     print("Goal!!")
     print("Number of nodes expanded to solve this problem:")
     print(num_nodes)

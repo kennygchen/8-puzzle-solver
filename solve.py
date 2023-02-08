@@ -1,6 +1,7 @@
 from queue import PriorityQueue
 from h_n import euclideanDistance, misplacedTiles
 from helper import *
+from copy import *
 
 class Node: 
 
@@ -9,10 +10,58 @@ class Node:
         self.parent = None
         self.g_n = g_n
 
-    def getPossibleNodes(self):
-        possible_nodes = []
+    def getChild(self):
+        possible_childs = []
         child_g_n = self.g_n + 1
         blank_row, blank_col = find_blank_tile(self.state)
+
+        # check if the blank tile can move up
+        if blank_row > 0:
+            child = deepcopy(self.state)
+            
+            # swap the blank tile with the tile above it
+            child[blank_row][blank_col] = self.state[blank_row - 1][blank_col]
+            child[blank_row - 1][blank_col] = self.state[blank_row][blank_col]
+
+            node = Node(child, child_g_n)
+            possible_childs.append(node)
+
+        # check if the blank tile can move down    
+        if blank_row < len(self.state) - 1:
+            child = deepcopy(self.state)
+                      
+            # swap the blank tile with the tile below it
+            child[blank_row][blank_col] = self.state[blank_row + 1][blank_col]
+            child[blank_row + 1][blank_col] = self.state[blank_row][blank_col]
+
+            node = Node(child, child_g_n)
+            possible_childs.append(node)
+
+
+        # check if the blank tile can move left
+        if blank_col > 0:
+            child = deepcopy(self.state)
+    
+            # swap the blank tile with the tile left it
+            child[blank_row][blank_col] = self.state[blank_row][blank_col - 1]
+            child[blank_row][blank_col - 1] = self.state[blank_row][blank_col]
+
+            node = Node(child, child_g_n)
+            possible_childs.append(node)
+
+
+        # check if the blank tile can move right    
+        if blank_col < len(self.state[0]) - 1:
+            child = deepcopy(self.state)
+            
+            # swap the blank tile with the tile right it
+            child[blank_row][blank_col] = self.state[blank_row][blank_col + 1]
+            child[blank_row][blank_col + 1] = self.state[blank_row][blank_col]
+
+            node = Node(child, child_g_n)
+            possible_childs.append(node)
+
+        return possible_childs
   
 class Problem:
     def __init__(self, initial_state):
@@ -34,6 +83,11 @@ class Problem:
         nodes = nodes[::-1]
         self.solution_path = nodes
 
+    def printSolutionPath(self):
+        for state in self.solution_path:
+            print_state(state)
+            print()
+
     def solve(self, choice_of_algorithm):
         self.choice_of_algorithm = choice_of_algorithm
         if choice_of_algorithm == 1:
@@ -51,30 +105,40 @@ class Problem:
         print_state(current_state.state)
         print()
         
+        if(current_state.state == self.goal_state):
+            printResult(num_nodes, self.max_num_in_queue)
+            self.getSolutionPath(current_state)
+            return
+
         node = (current_state.g_n, depth, current_state)
         self.frontier.put(node)
+        self.explored_node.append(node)
 
         while not self.frontier.empty():
             self.max_num_in_queue = max(self.max_num_in_queue, self.frontier.qsize()) 
-            
             poped_node = self.frontier.get()
-            current_state_f_n = poped_node[0]
             current_state = poped_node[2]
-            current_state_h_n = current_state_f_n - current_state.g_n
+            self.explored_node.append(current_state.state)
             if(current_state.state == self.goal_state):
                 printResult(num_nodes, self.max_num_in_queue)
                 self.getSolutionPath(current_state)
                 return
-            self.explored_node.append(current_state.state)
                 
-            print("The best state to expand with g(n) = {} is:". format(current_state.g_n))
+            print("\nThe best state to expand with g(n) = {} is:". format(current_state.g_n))
             print_state(current_state.state)
             print("Expanding this node...")
 
-            possible_nodes = current_state.getPossibleNodes()
+            childs = current_state.getChild()
 
+            for child in childs:
+                depth += 1
+                if child not in self.explored_node:
+                    node = (child.g_n, depth, child)
+                    self.frontier.put(node)
+                    child.parent = current_state
 
-            
+            num_nodes += 1         
 
     def aStar(self, h_n):
         pass
+    
