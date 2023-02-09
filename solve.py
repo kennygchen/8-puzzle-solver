@@ -161,6 +161,8 @@ class Problem:
                     node = (f_n, depth, child)
                     self.frontier.put(node)
                     child.parent = current_state
+                else:
+                    print("visited!!!")
 
             num_nodes += 1
     
