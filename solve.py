@@ -210,7 +210,7 @@ class Problem:
                 # If child is not explored, put it in the frontier and assign its parent
                 if child.state not in self.explored_node:
                     # Calculate the child node f value
-                    f_n = h_function(child.state, self.goal_state) + 
+                    f_n = h_function(child.state, self.goal_state) + child.g_n
                     node = (f_n, depth, child)
                     self.frontier.put(node)
                     child.parent = current_state
