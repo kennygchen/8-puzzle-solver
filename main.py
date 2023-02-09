@@ -16,6 +16,7 @@ def main():
     global initial_state
     global choice_of_algorithm    
 
+    # Opening and ask for puzzle to solve
     print("862312924 8 Puzzle Solver")
     print("[1] Use default puzzle")
     print("[2] Enter your own puzzle")
@@ -35,6 +36,7 @@ def main():
     print("\nThe puzzle:")
     print_state(initial_state)
   
+    # Ask for the choice of algorithm
     print("\nEnter your choice of algorithm:")
     print("[1] Uniform Cost Search")
     print("[2] A* with the Misplaced Tile Heuristic")
@@ -46,6 +48,7 @@ def main():
     
     input("\nPress Enter to continue...\n")
 
+    # Initialize the problem and start to solve
     problem = Problem(initial_state)
     problem.solve(choice_of_algorithm)
     problem.printSolutionPath()

@@ -69,12 +69,12 @@ class Problem:
         self.frontier = PriorityQueue()
         self.explored_node = []
         self.solution_path = []
-        self.nodes_expand = 0
         self.max_num_in_queue = 0
         self.goal_state = [ ['1','2','3'],
                             ['4','5','6'],
                             ['7','8','0']]
 
+    # Create a the path from solution to initial state
     def getSolutionPath(self, node):
         nodes = []
         while node.parent != None:
@@ -83,6 +83,7 @@ class Problem:
         nodes = nodes[::-1]
         self.solution_path = nodes
 
+    # Print the path from solution to initial state
     def printSolutionPath(self):
         print("\nThe solution path:")
         print_state(self.initial_state)
@@ -91,6 +92,7 @@ class Problem:
             print_state(state)
             print()
 
+    # Solve the problem based on the choice of algorithm from user
     def solve(self, choice_of_algorithm):
         self.choice_of_algorithm = choice_of_algorithm
         if choice_of_algorithm == 1:
@@ -103,7 +105,9 @@ class Problem:
             print("Using A* with Euclidean Distance Deuristic")
             self.aStar(euclideanDistance)
 
+    # Implementation of uniform cost search
     def uniformCost(self):
+        # Creates a Node object from initial state
         current_state = Node(self.initial_state)
         depth = 1
         num_nodes = 1
@@ -111,22 +115,28 @@ class Problem:
         print_state(current_state.state)
         print()
         
+        # First check if the initial is the goal state
         if(current_state.state == self.goal_state):
-            printResult(num_nodes, self.max_num_in_queue)
+            printResult(num_nodes, self.max_num_in_queue, current_state.g_n)
             self.getSolutionPath(current_state)
             return
 
+        # Put the initial state into the frontier and the list of explored node
         node = (current_state.g_n, depth, current_state)
         self.frontier.put(node)
         self.explored_node.append(node)
 
+
         while not self.frontier.empty():
+            # Check max number of node in the frontier
             self.max_num_in_queue = max(self.max_num_in_queue, self.frontier.qsize()) 
-            poped_node = self.frontier.get()
-            current_state = poped_node[2]
-            self.explored_node.append(current_state.state)
+            poped_node = self.frontier.get()        # Pop a node from frontier
+            current_state = poped_node[2]           # Capture the poped node
+            self.explored_node.append(current_state.state)      # Add to explored node list
+            
+            # Poped node goal check
             if(current_state.state == self.goal_state):
-                printResult(num_nodes, self.max_num_in_queue)
+                printResult(num_nodes, self.max_num_in_queue, current_state.g_n)
                 self.getSolutionPath(current_state)
                 return
                 
@@ -134,6 +144,7 @@ class Problem:
             print_state(current_state.state)
             print("Expanding this node...")
 
+            # Get possible move
             childs = current_state.getChild()
 
             for child in childs:
@@ -145,7 +156,9 @@ class Problem:
 
             num_nodes += 1         
 
+    # Implementation of A*
     def aStar(self, h_function):
+        # Creates a Node object from initial state
         current_state = Node(self.initial_state)
         depth = 1
         num_nodes = 1
@@ -153,26 +166,32 @@ class Problem:
         print_state(current_state.state)
         print()
 
+        # First check if the initial is the goal state
         if(current_state.state == self.goal_state):
-            printResult(num_nodes, self.max_num_in_queue)
+            printResult(num_nodes, self.max_num_in_queue, current_state.g_n)
             self.getSolutionPath(current_state)
             return
 
+        # Calculate the f value based on the choice of h function + g_n
         f_n = h_function(current_state.state, self.goal_state) + current_state.g_n
     
+        # Put the initial state into the frontier and the list of explored node
         node = (f_n, depth, current_state)
         self.frontier.put(node)
         self.explored_node.append(node)
 
         while not self.frontier.empty():
+            # Check max number of node in the frontier
             self.max_num_in_queue = max(self.max_num_in_queue, self.frontier.qsize()) 
-            poped_node = self.frontier.get()
-            current_state = poped_node[2]
+            poped_node = self.frontier.get()        # Pop a node from frontier
+            current_state = poped_node[2]           # Capture the poped node
             current_f_n = poped_node[0]
-            current_h_n = current_f_n - current_state.g_n
-            self.explored_node.append(current_state.state)
+            current_h_n = current_f_n - current_state.g_n       # Get the poped node's h value
+            self.explored_node.append(current_state.state)      # Add to explored node list
+            
+            # Poped node goal check
             if(current_state.state == self.goal_state):
-                printResult(num_nodes, self.max_num_in_queue)
+                printResult(num_nodes, self.max_num_in_queue, current_state.g_n)
                 self.getSolutionPath(current_state)
                 return
                 
@@ -180,6 +199,7 @@ class Problem:
             print_state(current_state.state)
             print("Expanding this node...")
 
+            # Get possible move
             childs = current_state.getChild()
 
             for child in childs:
