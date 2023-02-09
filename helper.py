@@ -1,4 +1,4 @@
-# Prints input state into matrix format
+# Print input state into matrix format
 def print_state(state):
     matrix = '\n'.join([''.join(['{:3}'.format(item) for item in row]) for row in state])
     print(matrix)
@@ -10,7 +10,7 @@ def find_blank_tile(state):
             if(state[i][j] == '0'):
                 return [i, j]
 
-# Prints the result with goal message
+# Print the result with goal message
 def printResult(num_nodes, max_num_in_queue, depth):
     print()
     print("Goal!!")
