@@ -149,6 +149,8 @@ class Problem:
 
             for child in childs:
                 depth += 1
+
+                # If child is not explored, put it in the frontier and assign its parent
                 if child.state not in self.explored_node:
                     node = (child.g_n, depth, child)
                     self.frontier.put(node)
@@ -204,8 +206,11 @@ class Problem:
 
             for child in childs:
                 depth += 1
+
+                # If child is not explored, put it in the frontier and assign its parent
                 if child.state not in self.explored_node:
-                    f_n = h_function(child.state, self.goal_state)
+                    # Calculate the child node f value
+                    f_n = h_function(child.state, self.goal_state) + 
                     node = (f_n, depth, child)
                     self.frontier.put(node)
                     child.parent = current_state
