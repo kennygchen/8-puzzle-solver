@@ -97,69 +97,16 @@ class Problem:
         self.choice_of_algorithm = choice_of_algorithm
         if choice_of_algorithm == 1:
             print("Using Uniform Cost Search")
-            self.uniformCost()
+            self.graphSearch(lambda *args, **kwargs: 0)     # Uniform Cost is just heuristic hard coded to 0
         elif choice_of_algorithm == 2:
-            print("Using A* with Misplaced Tiles Deuristic")
-            self.aStar(misplacedTiles)
+            print("Using A* with Misplaced Tiles Heuristic")
+            self.graphSearch(misplacedTiles)
         elif choice_of_algorithm == 3:
-            print("Using A* with Euclidean Distance Deuristic")
-            self.aStar(euclideanDistance)
+            print("Using A* with Euclidean Distance Heuristic")
+            self.graphSearch(euclideanDistance)
 
-    # Implementation of uniform cost search
-    def uniformCost(self):
-        # Creates a Node object from initial state
-        current_state = Node(self.initial_state)
-        depth = 1
-        num_nodes = 1
-        print("Expanding state:")
-        print_state(current_state.state)
-        print()
-        
-        # First check if the initial is the goal state
-        if(current_state.state == self.goal_state):
-            printResult(num_nodes, self.max_num_in_queue, current_state.g_n)
-            self.getSolutionPath(current_state)
-            return
-
-        # Put the initial state into the frontier and the list of explored node
-        node = (current_state.g_n, depth, current_state)
-        self.frontier.put(node)
-        self.explored_node.append(node)
-
-
-        while not self.frontier.empty():
-            # Check max number of node in the frontier
-            self.max_num_in_queue = max(self.max_num_in_queue, self.frontier.qsize()) 
-            poped_node = self.frontier.get()        # Pop a node from frontier
-            current_state = poped_node[2]           # Capture the poped node
-            self.explored_node.append(current_state.state)      # Add to explored node list
-            
-            # Poped node goal check
-            if(current_state.state == self.goal_state):
-                printResult(num_nodes, self.max_num_in_queue, current_state.g_n)
-                self.getSolutionPath(current_state)
-                return
-                
-            print("\nThe best state to expand with g(n) = {} is:". format(current_state.g_n))
-            print_state(current_state.state)
-            print("Expanding this node...")
-
-            # Get possible move
-            childs = current_state.getChild()
-
-            for child in childs:
-                depth += 1
-
-                # If child is not explored, put it in the frontier and assign its parent
-                if child.state not in self.explored_node:
-                    node = (child.g_n, depth, child)
-                    self.frontier.put(node)
-                    child.parent = current_state
-
-            num_nodes += 1         
-
-    # Implementation of A*
-    def aStar(self, h_function):
+    # Implementation of Graph Search
+    def graphSearch(self, h_function):
         # Creates a Node object from initial state
         current_state = Node(self.initial_state)
         depth = 1
