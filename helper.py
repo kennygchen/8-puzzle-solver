@@ -18,24 +18,12 @@ def printResult(num_nodes, max_num_in_queue, depth, found_goal):
     if(found_goal):
         print()
         print("Goal!!")
-        print("Solution found at depth: {}".format(depth))
-        print("Number of nodes expanded to solve this problem: {}".format(num_nodes))
-        print("The maximum number of nodes in the queue at any one time: {}".format(max_num_in_queue))
+        print(f"Solution found at depth: {depth}")
+        print(f"Number of nodes expanded to solve this problem: {num_nodes}")
+        print(f"The maximum number of nodes in the queue at any one time: {max_num_in_queue}")
     else:
         print()
         print("No solution found!!")
-        print("Search ends at depth: {}".format(depth))
-        print("Number of nodes expanded for this problem: {}".format(num_nodes))
-        print("The maximum number of nodes in the queue at any one time: {}".format(max_num_in_queue))
-
-def popLowest(list):
-    poped_node = []
-    cost = sys.maxsize
-    lowest_cost_index = 0
-    for index in range(len(list)):
-        if list[index][0] < cost:
-            cost = list[index][0]
-            lowest_cost_index = index
-    poped_node = list[lowest_cost_index]
-    del list[lowest_cost_index]
-    return poped_node
+        print(f"Search ends at depth: {depth}")
+        print(f"Number of nodes expanded for this problem: {num_nodes}")
+        print(f"The maximum number of nodes in the queue at any one time: {max_num_in_queue}")

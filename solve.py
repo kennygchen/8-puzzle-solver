@@ -1,6 +1,7 @@
 from h_n import euclideanDistance, misplacedTiles
 from helper import *
 from copy import *
+from queue import PriorityQueue
 
 class Node:
     def __init__(self, state, g_n = 0):
@@ -64,7 +65,7 @@ class Node:
 class Problem:
     def __init__(self, initial_state, debug = 1):
         self.initial_state = initial_state
-        self.frontier_list = []
+        self.frontier_list = PriorityQueue()
         self.explored_node = []
         self.solution_path = []
         self.max_num_in_queue = 0
@@ -111,9 +112,10 @@ class Problem:
         current_state = Node(self.initial_state)
         depth = 1
         num_nodes = 1
-        print("Expanding state:")
-        print_state(current_state.state)
-        print()
+        if not self.debug:
+            print("Expanding state:")
+            print_state(current_state.state)
+            print()
 
         # First check if the initial is the goal state
         if(current_state.state == self.goal_state):
@@ -127,13 +129,13 @@ class Problem:
     
         # Put the initial state into the frontier and the list of explored node
         node = (f_n, depth, current_state)
-        self.frontier_list.append(node)
+        self.frontier_list.put(node)
         self.explored_node.append(node)
 
-        while len(self.frontier_list) > 0:
+        while not self.frontier_list.empty():
             # Check max number of node in the frontier
-            self.max_num_in_queue = max(self.max_num_in_queue, len(self.frontier_list)) 
-            poped_node = popLowest(self.frontier_list)          # Pop the lowest cost node from frontier
+            self.max_num_in_queue = max(self.max_num_in_queue, self.frontier_list.qsize()) 
+            poped_node = self.frontier_list.get()         # Pop the lowest cost node from frontier
             current_state = poped_node[2]                       # Capture the poped node
             current_f_n = poped_node[0]
             current_h_n = current_f_n - current_state.g_n       # Get the poped node's h value
@@ -162,7 +164,7 @@ class Problem:
                     # Calculate the child node f value
                     f_n = h_function(child.state, self.goal_state) + child.g_n
                     child_node = (f_n, depth, child)
-                    self.frontier_list.append(child_node)
+                    self.frontier_list.put(child_node)
                     child.parent = current_state
 
             num_nodes += 1

@@ -4,36 +4,38 @@ from solve import *
 import time
 
 default_puzzle = [
-                # Trival
+                # Trival [1]
                 [['1', '2', '3'],
                 ['4', '5', '6'],
                 ['7', '8', '0']],
 
-                # Easy
-                [['1', '2', '0'],
-                ['4', '5', '3'],
-                ['7', '8', '6']],
-
-                # Oh boy
-                [['8', '7', '1'],
-                ['6', '0', '2'],
-                ['5', '4', '3']],
-
-                #Vary easy
+                #Vary easy [2]
                 [['1', '2', '3'],
                 ['4', '5', '6'],
                 ['7', '0', '8']],
 
-                # Doable
+                # Easy [3]
+                [['1', '2', '0'],
+                ['4', '5', '3'],
+                ['7', '8', '6']],
+
+                # Doable [4]
                 [['0', '1', '2'],
                 ['4', '5', '3'],
                 ['7', '8', '6']],
 
-                # Impossible
+                # Oh boy [5]
+                [['8', '7', '1'],
+                ['6', '0', '2'],
+                ['5', '4', '3']],
+
+                # Impossible [6]
                 [['1', '2', '3'],
                 ['4', '5', '6'],
                 ['8', '7', '0']]
                 ]
+
+initial_state = [[],[],[]]
 
 def main():
     choice_of_puzzle = 0
@@ -51,13 +53,13 @@ def main():
     if(choice_of_puzzle == 1):
         print("\n[1] Trival")
         print_state(default_puzzle[0])
-        print("\n[2] Easy")
+        print("\n[2] Very Easy")
         print_state(default_puzzle[1])
-        print("\n[3] Oh Boy")
+        print("\n[3] Easy")
         print_state(default_puzzle[2])
-        print("\n[4] Very Easy")
+        print("\n[4] Doable")
         print_state(default_puzzle[3])
-        print("\n[5] Doable")
+        print("\n[5] Oh Boy")
         print_state(default_puzzle[4])
         print("\n[6] IMPOSSIBLE (This puzzle is not solvable)")
         print_state(default_puzzle[5])
