@@ -3,8 +3,7 @@ from h_n import euclideanDistance, misplacedTiles
 from helper import *
 from copy import *
 
-class Node: 
-
+class Node:
     def __init__(self, state, g_n = 0):
         self.state = state
         self.parent = None
@@ -67,6 +66,7 @@ class Problem:
     def __init__(self, initial_state):
         self.initial_state = initial_state
         self.frontier = PriorityQueue()
+        self.frontier_list = []
         self.explored_node = []
         self.solution_path = []
         self.max_num_in_queue = 0
@@ -126,24 +126,28 @@ class Problem:
     
         # Put the initial state into the frontier and the list of explored node
         node = (f_n, depth, current_state)
+        # self.frontier_list.append(node)
         self.frontier.put(node)
         self.explored_node.append(node)
 
         while not self.frontier.empty():
+        # while len(self.frontier_list) > 0:
             # Check max number of node in the frontier
             self.max_num_in_queue = max(self.max_num_in_queue, self.frontier.qsize()) 
+            # self.max_num_in_queue = max(self.max_num_in_queue, len(self.frontier_list)) 
             poped_node = self.frontier.get()        # Pop a node from frontier
+            # poped_node = popLowest(self.frontier_list)
             current_state = poped_node[2]           # Capture the poped node
             current_f_n = poped_node[0]
             current_h_n = current_f_n - current_state.g_n       # Get the poped node's h value
-            self.explored_node.append(current_state.state)      # Add to explored node list
             
-            # Poped node goal check
+            # Poped node goal test
             if(current_state.state == self.goal_state):
                 printResult(num_nodes, self.max_num_in_queue, current_state.g_n)
                 self.getSolutionPath(current_state)
                 return
                 
+            self.explored_node.append(current_state.state)      # Add to explored node list
             print("\nThe best state to expand with g(n) = {} and h(n) = {} is:". format(current_state.g_n, current_h_n))
             print_state(current_state.state)
             print("Expanding this node...")
@@ -160,9 +164,9 @@ class Problem:
                     f_n = h_function(child.state, self.goal_state) + child.g_n
                     node = (f_n, depth, child)
                     self.frontier.put(node)
+                    # self.frontier_list.append(node)
                     child.parent = current_state
-                else:
-                    print("visited!!!")
+                    
 
             num_nodes += 1
     
