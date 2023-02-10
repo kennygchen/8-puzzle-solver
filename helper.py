@@ -1,4 +1,5 @@
 import sys
+from h_n import *
 
 # Print input state into matrix format
 def print_state(state):
@@ -38,4 +39,3 @@ def popLowest(list):
     poped_node = list[lowest_cost_index]
     del list[lowest_cost_index]
     return poped_node
-    

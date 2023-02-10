@@ -1,34 +1,39 @@
 from heapq import heappush, heappop
 from helper import *
 from solve import *
+import time
 
 default_puzzle = [
-
+                # Trival
                 [['1', '2', '3'],
                 ['4', '5', '6'],
                 ['7', '8', '0']],
 
+                # Easy
                 [['1', '2', '0'],
                 ['4', '5', '3'],
                 ['7', '8', '6']],
 
+                # Oh boy
                 [['8', '7', '1'],
                 ['6', '0', '2'],
                 ['5', '4', '3']],
 
+                #Vary easy
                 [['1', '2', '3'],
                 ['4', '5', '6'],
                 ['7', '0', '8']],
 
+                # Doable
                 [['0', '1', '2'],
                 ['4', '5', '3'],
                 ['7', '8', '6']],
 
+                # Impossible
                 [['1', '2', '3'],
                 ['4', '5', '6'],
                 ['8', '7', '0']]
-
-]
+                ]
 
 def main():
     choice_of_puzzle = 0
@@ -36,7 +41,7 @@ def main():
     second_row = ""
     third_row = ""
     global initial_state
-    global choice_of_algorithm    
+    global choice_of_algorithm
 
     # Opening and ask for puzzle to solve
     print("862312924 8 Puzzle Solver")
@@ -86,7 +91,11 @@ def main():
 
     # Initialize the problem and start to solve
     problem = Problem(initial_state)
+    first = time.time()
     problem.solve(choice_of_algorithm)
+    second = time.time()
+    duration = second - first
+    print(f"The time it took to solve: {duration} second")
     problem.printSolutionPath()
 
 if __name__ == "__main__":

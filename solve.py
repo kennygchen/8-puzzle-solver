@@ -1,4 +1,3 @@
-from queue import PriorityQueue
 from h_n import euclideanDistance, misplacedTiles
 from helper import *
 from copy import *
@@ -63,9 +62,8 @@ class Node:
         return possible_childs
   
 class Problem:
-    def __init__(self, initial_state):
+    def __init__(self, initial_state, debug = 1):
         self.initial_state = initial_state
-        self.frontier = PriorityQueue()
         self.frontier_list = []
         self.explored_node = []
         self.solution_path = []
@@ -74,6 +72,7 @@ class Problem:
         self.goal_state = [ ['1','2','3'],
                             ['4','5','6'],
                             ['7','8','0']]
+        self.debug = debug
 
     # Create a the path from solution to initial state
     def getSolutionPath(self, node):
@@ -128,18 +127,14 @@ class Problem:
     
         # Put the initial state into the frontier and the list of explored node
         node = (f_n, depth, current_state)
-        # self.frontier.put(node)
         self.frontier_list.append(node)
         self.explored_node.append(node)
 
-        # while not self.frontier.empty():
         while len(self.frontier_list) > 0:
             # Check max number of node in the frontier
-            # self.max_num_in_queue = max(self.max_num_in_queue, self.frontier.qsize()) 
             self.max_num_in_queue = max(self.max_num_in_queue, len(self.frontier_list)) 
-            # poped_node = self.frontier.get()        # Pop a node from frontier
-            poped_node = popLowest(self.frontier_list)
-            current_state = poped_node[2]           # Capture the poped node
+            poped_node = popLowest(self.frontier_list)          # Pop the lowest cost node from frontier
+            current_state = poped_node[2]                       # Capture the poped node
             current_f_n = poped_node[0]
             current_h_n = current_f_n - current_state.g_n       # Get the poped node's h value
             
@@ -151,9 +146,10 @@ class Problem:
                 return
                 
             self.explored_node.append(current_state.state)      # Add to explored node list
-            print("\nThe best state to expand with g(n) = {} and h(n) = {} is:". format(current_state.g_n, current_h_n))
-            print_state(current_state.state)
-            print("Expanding this node...")
+            if not self.debug:
+                print("\nThe best state to expand with g(n) = {} and h(n) = {} is:". format(current_state.g_n, current_h_n))
+                print_state(current_state.state)
+                print("Expanding this node...")
 
             # Get possible move
             childs = current_state.getChild()
@@ -165,14 +161,11 @@ class Problem:
                 if child.state not in self.explored_node:
                     # Calculate the child node f value
                     f_n = h_function(child.state, self.goal_state) + child.g_n
-                    node = (f_n, depth, child)
-                    # self.frontier.put(node)
-                    self.frontier_list.append(node)
+                    child_node = (f_n, depth, child)
+                    self.frontier_list.append(child_node)
                     child.parent = current_state
-                    
 
             num_nodes += 1
 
         # No solution found
         printResult(num_nodes, self.max_num_in_queue, current_state.g_n, self.found_goal)
-    
