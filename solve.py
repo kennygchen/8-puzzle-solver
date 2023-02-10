@@ -110,7 +110,7 @@ class Problem:
     def graphSearch(self, h_function):
         # Creates a Node object from initial state
         current_state = Node(self.initial_state)
-        depth = 1
+        counter = 1
         num_nodes = 1
         if not self.debug:
             print("Expanding state:")
@@ -128,7 +128,7 @@ class Problem:
         f_n = h_function(current_state.state, self.goal_state) + current_state.g_n
     
         # Put the initial state into the frontier and the list of explored node
-        node = (f_n, depth, current_state)
+        node = (f_n, counter, current_state)
         self.frontier_list.put(node)
         self.explored_node.append(node)
 
@@ -153,17 +153,21 @@ class Problem:
                 print_state(current_state.state)
                 print("Expanding this node...")
 
+            
+            if current_state.g_n > 23:      # Stop the search when reach the depth of 23
+                break
+
             # Get possible move
             childs = current_state.getChild()
 
             for child in childs:
-                depth += 1
+                counter += 1
 
                 # If child is not explored, put it in the frontier and assign its parent
                 if child.state not in self.explored_node:
                     # Calculate the child node f value
                     f_n = h_function(child.state, self.goal_state) + child.g_n
-                    child_node = (f_n, depth, child)
+                    child_node = (f_n, counter, child)
                     self.frontier_list.put(child_node)
                     child.parent = current_state
 
