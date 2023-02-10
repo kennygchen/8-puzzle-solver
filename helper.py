@@ -13,12 +13,19 @@ def find_blank_tile(state):
                 return [i, j]
 
 # Print the result with goal message
-def printResult(num_nodes, max_num_in_queue, depth):
-    print()
-    print("Goal!!")
-    print("Solution found at depth: {}".format(depth))
-    print("Number of nodes expanded to solve this problem: {}".format(num_nodes))
-    print("The maximum number of nodes in the queue at any one time: {}".format(max_num_in_queue))
+def printResult(num_nodes, max_num_in_queue, depth, found_goal):
+    if(found_goal):
+        print()
+        print("Goal!!")
+        print("Solution found at depth: {}".format(depth))
+        print("Number of nodes expanded to solve this problem: {}".format(num_nodes))
+        print("The maximum number of nodes in the queue at any one time: {}".format(max_num_in_queue))
+    else:
+        print()
+        print("No solution found!!")
+        print("Search ends at depth: {}".format(depth))
+        print("Number of nodes expanded for this problem: {}".format(num_nodes))
+        print("The maximum number of nodes in the queue at any one time: {}".format(max_num_in_queue))
 
 def popLowest(list):
     poped_node = []
@@ -28,8 +35,6 @@ def popLowest(list):
         if list[index][0] < cost:
             cost = list[index][0]
             lowest_cost_index = index
-
-    print(list[lowest_cost_index])
     poped_node = list[lowest_cost_index]
     del list[lowest_cost_index]
     return poped_node

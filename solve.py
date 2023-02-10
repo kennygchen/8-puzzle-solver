@@ -70,6 +70,7 @@ class Problem:
         self.explored_node = []
         self.solution_path = []
         self.max_num_in_queue = 0
+        self.found_goal = 0
         self.goal_state = [ ['1','2','3'],
                             ['4','5','6'],
                             ['7','8','0']]
@@ -117,7 +118,8 @@ class Problem:
 
         # First check if the initial is the goal state
         if(current_state.state == self.goal_state):
-            printResult(num_nodes, self.max_num_in_queue, current_state.g_n)
+            self.found_goal = 1
+            printResult(num_nodes, self.max_num_in_queue, current_state.g_n, self.found_goal)
             self.getSolutionPath(current_state)
             return
 
@@ -126,24 +128,25 @@ class Problem:
     
         # Put the initial state into the frontier and the list of explored node
         node = (f_n, depth, current_state)
-        # self.frontier_list.append(node)
-        self.frontier.put(node)
+        # self.frontier.put(node)
+        self.frontier_list.append(node)
         self.explored_node.append(node)
 
-        while not self.frontier.empty():
-        # while len(self.frontier_list) > 0:
+        # while not self.frontier.empty():
+        while len(self.frontier_list) > 0:
             # Check max number of node in the frontier
-            self.max_num_in_queue = max(self.max_num_in_queue, self.frontier.qsize()) 
-            # self.max_num_in_queue = max(self.max_num_in_queue, len(self.frontier_list)) 
-            poped_node = self.frontier.get()        # Pop a node from frontier
-            # poped_node = popLowest(self.frontier_list)
+            # self.max_num_in_queue = max(self.max_num_in_queue, self.frontier.qsize()) 
+            self.max_num_in_queue = max(self.max_num_in_queue, len(self.frontier_list)) 
+            # poped_node = self.frontier.get()        # Pop a node from frontier
+            poped_node = popLowest(self.frontier_list)
             current_state = poped_node[2]           # Capture the poped node
             current_f_n = poped_node[0]
             current_h_n = current_f_n - current_state.g_n       # Get the poped node's h value
             
             # Poped node goal test
             if(current_state.state == self.goal_state):
-                printResult(num_nodes, self.max_num_in_queue, current_state.g_n)
+                self.found_goal = 1
+                printResult(num_nodes, self.max_num_in_queue, current_state.g_n, self.found_goal)
                 self.getSolutionPath(current_state)
                 return
                 
@@ -163,10 +166,13 @@ class Problem:
                     # Calculate the child node f value
                     f_n = h_function(child.state, self.goal_state) + child.g_n
                     node = (f_n, depth, child)
-                    self.frontier.put(node)
-                    # self.frontier_list.append(node)
+                    # self.frontier.put(node)
+                    self.frontier_list.append(node)
                     child.parent = current_state
                     
 
             num_nodes += 1
+
+        # No solution found
+        printResult(num_nodes, self.max_num_in_queue, current_state.g_n, self.found_goal)
     
