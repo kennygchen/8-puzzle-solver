@@ -121,3 +121,24 @@ The solution path:
 - The list of the explored nodes is not working. Nodes are added to the list but when comparing the current node it did not match any explored node in the list even though it has been explored. I noticed this when running test cases and found it is expanding a node that has been visited.
 - Another problem is when calculating the euclidean distance. The math part is incorrect at first and fixed later.
 - The pseudo-code in the reading material says to replace the node in frontier with the child node of the same state but lower path cost. I couldn't check if the frontier has a node with the same state as the child node because the priority queue in python is not iterable and can’t update the value after being pushed to the queue.
+
+## Findings
+By running the default puzzle included in the program:
+
+### Run time (in second):
+|               | Unifrom Cost Search | Misplaced Tile Heuristic | Euclidean Distance Heuristic |
+| :------------ | ------------------: | -----------------------: | ---------------------------: |
+| Trivial (1)   |          0.00099968 |               0.00099754 |                   0.00099873 |
+| Very Easy (2) |           0.0010004 |               0.00099968 |                   0.00099873 |
+| Easy (3)      |          0.00099927 |               0.00099968 |                            0 |
+| Doable (4)    |          0.00100135 |               0.00099921 |                   0.00099921 |
+| Hard (5)      |            328.4537 |               0.90593576 |                    0.1230762 |
+| Oh Boy (6)    |          2270.28749 |                   6.5189 |                      0.18035 |
+
+<p align="center">
+  <img width="90%"src="https://user-images.githubusercontent.com/55712285/220533887-2402af56-3d82-404a-a738-19149328b48a.png">
+</p>
+
+<p align="center">
+  <img width="90%"src="https://user-images.githubusercontent.com/55712285/220533930-1b400f2e-2bca-42ae-ae02-4efa93722ae0.png">
+</p>
