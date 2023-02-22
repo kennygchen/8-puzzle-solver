@@ -63,7 +63,7 @@ class Node:
         return possible_childs
   
 class Problem:
-    def __init__(self, initial_state, debug = 1):
+    def __init__(self, initial_state, debug = 0):
         self.initial_state = initial_state
         self.frontier_list = PriorityQueue()
         self.explored_node = []
